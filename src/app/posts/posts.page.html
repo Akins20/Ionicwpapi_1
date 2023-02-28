@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="primary">
+      <ion-icon slot="icon-only" name="add-outline" routerLink="/posts/new"></ion-icon>
+    </ion-buttons>
+    <ion-title>Total posts {{ totalPost }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <ion-col size-sm="4" size="12" *ngFor="let post of post">
+        <ion-card>
+          <ion-card-header class="ion-no-padding">
+            <img [src]="post.media_url">
+          </ion-card-header>
+          <ion-card-content>
+            <ion-text color="dark">
+              <h2 [innerHTML]="post.title.rendered"></h2>
+            </ion-text>
+            <ion-button color="primary" size="small" fill="outline" class="ion-float-right" (click)="edit(post)">
+              <ion-icon name="create-outline" slot="start"></ion-icon> Edit
+            </ion-button>
+
+            <ion-text>Date : {{ post.date_gmt |date: 'dd MMM yyy' }}</ion-text>
+            <div [innerHTML]="post.excerpt.rendered"></div>
+            <a class="ion-float-right" [routerLink]="['/', 'posts', post.id]">Read More</a>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-infinite-scroll (ionInfinite)="loadMorePost($event)">
+    <ion-infinite-scroll-content loadingText="Loading more posts...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
